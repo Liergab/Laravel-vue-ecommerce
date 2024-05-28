@@ -3,11 +3,13 @@
 namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Task;
+use App\Models\Product;
+use App\Models\CartItems;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -57,4 +59,13 @@ class User extends Authenticatable
     public function addresses(): HasOne{
         return $this->hasOne(Address::class, 'user_id');
     }
+    public function cartItems(): HasMany{
+        return $this->hasMany(CartItems::class, 'user_id');
+    }
+
+    public function products(): HasMany{
+        return $this->hasMany(Product::class, 'user_id');
+    }
+
+
 }
