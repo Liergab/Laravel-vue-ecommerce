@@ -8,7 +8,6 @@ use App\Http\Controllers\Api\CompleteTaskController;
 
 Route::post("/register", [ApiController::class, "register"]);
 Route::post('login',  [ApiController::class, "login"]);
-Route::get('/', [ApiController::class, 'index']);
 
 Route::group([
     "middleware" => ["auth:sanctum"]
@@ -21,8 +20,5 @@ Route::group([
     Route::apiResource('/address', AddressController::class);
     // Route::get("refresh-token", [ApiController::class, "refreshToken"]);
 });
-
-
-
 
 Route::patch('/tasks/{task}/complete' ,CompleteTaskController::class);

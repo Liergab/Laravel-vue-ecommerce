@@ -10,4 +10,5 @@ interface AuthServices
    public function register($request);
    public function profile();
    public function updateProfile($request);
+   public function logout();
 }

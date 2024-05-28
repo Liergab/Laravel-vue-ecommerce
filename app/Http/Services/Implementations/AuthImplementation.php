@@ -2,16 +2,34 @@
 namespace  App\Http\Services\Implementations;
 
 use App\Http\Services\AuthServices;
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AuthImplementation implements AuthServices
 {
 
     public function register($request)
     {
-        
+        $validated = $request->validate([
+            "name"     => "required|string",
+            "email"    => "required|string|email|unique:users",
+            "password" => "required|confirmed",
+            "default_billing_address_id"  => "nullable",
+            "default_shipping_address_id" => "nullable"
+        ]);
+
+        $user = User::create($validated);
+        Mail::to($user->email)->send(new WelcomeMail($user));
+        return response()->json([
+                "data"         => $user,
+                "status"       => true,
+                "token_type"   => "Bearer",
+                "access_token" => $user->createToken('api_token')->plainTextToken
+            ], 201); 
     }
+
     public function login($request)
     {
         $validated = $request->validate([
@@ -81,5 +99,14 @@ class AuthImplementation implements AuthServices
                 'message' => 'Unauthorized to update this user.'
             ], 403);
         }
+    }
+
+    public function logout()
+    {
+        request()->user()->tokens()->delete();
+
+        return response()->json([
+            'message' => 'UserLogout!'
+        ],200);
     }
 }
