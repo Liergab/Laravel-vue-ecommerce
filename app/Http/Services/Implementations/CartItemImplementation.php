@@ -15,5 +15,53 @@ class CartItemImplementation implements CartItemServices
 
         return response()->json(CartItemResource::collection($cartItem),200);
     }
+
+    public function show($cartItem)
+    {
+        $user = auth()->user();
+
+        if($user->id !== $cartItem->user_id){
+            return response()->json([
+                'message' => 'You dont have permission to get the other cart of user!'
+            ],403);
+        }
+        return response()->json(CartItemResource::make($cartItem), 200);
+    }
+
+    public function store($request)
+    {
+        $validated = $request->validated();
+
+        $existingCartItem = auth()->user()
+                                  ->cartItems()
+                                  ->where('product_id', $validated['product_id'])
+                                  ->first();
+        if($existingCartItem){
+            return response()->json([
+                'message' => 'The product is already in cart!'
+            ]);
+        }
+
+        $cart = auth()->user()
+                      ->cartItems()
+                      ->create($validated);
+
+        return response()->json(CartItemResource::make($cart));
+    }
+
+    public function updatecart($request, $cartItem)
+    {
+        $user = auth()->user();
+        if($user->id !== $cartItem->user_id){
+            return response()->json([
+                'message' => 'You cant update this quantity!'
+            ]);
+        }
+        $cartItem->update($request->validated());
+
+        return response()->json([
+            'data' => CartItemResource::make($cartItem)
+        ]);
+    }
     
 }
