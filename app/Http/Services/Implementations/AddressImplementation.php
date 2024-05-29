@@ -13,8 +13,11 @@ class AddressImplementation implements AddressServices
 
    public function index()
    {
-        $user = auth()->user()->load('tasks');
-        $address = Address::where('user_id',$user->id)->paginate(5);
+        $user = auth()->user()
+                      ->load('tasks');
+
+        $address = Address::where('user_id',$user->id)
+                           ->paginate(5);
        
         return AddressResource::collection($address);
    }
@@ -24,14 +27,18 @@ class AddressImplementation implements AddressServices
          $validate = $request->validated();
          $user = auth()->user();
 
-         $existingAddress = $user->addresses()->first();
+         $existingAddress = $user->addresses()
+                                 ->first();
+
          if ($existingAddress) {
                return response()->json([
                   'message' => 'User already has an address.'
                ], 400);
          }
 
-        $address = auth()->user()->addresses()->create($validate);
+        $address = auth()->user()
+                         ->addresses()
+                         ->create($validate);
 
          return response()->json([
             'message' => 'Address Added!',

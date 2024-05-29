@@ -17,26 +17,31 @@ class ProductController extends Controller
     }
     public function index()
     {
-        return $this->productServices->index();
+        return $this->productServices
+                    ->index();
     }
     
     public function store(StoreProductRequest $request)
     {
-        return $this->productServices->store($request);
+        return $this->productServices
+                    ->store($request);
     }
    
     public function show(Product $product)
     {
-        return $this->productServices->show($product);
+        return $this->productServices
+                    ->show($product);
     }
 
     public function update(UpdateProductRequest $request, Product $product)
     {
-        return $this->productServices->update($request, $product);
+        return $this->productServices
+                    ->update($request, $product);
     }
     
     public function destroy(Product $product)
     {
-        return $this->productServices->destroy($product);
+        return $this->productServices
+                    ->destroy($product);
     }
 }

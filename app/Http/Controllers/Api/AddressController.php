@@ -17,20 +17,24 @@ class AddressController extends Controller
     
     public function index()
     {
-        return $this->addressServices->index();
+        return $this->addressServices
+                    ->index();
     }
     public function store(StoreAddressRequest $request)
     {
-        return $this->addressServices->store($request);
+        return $this->addressServices
+                    ->store($request);
     }
 
     public function update(UpdateAddressRequest $request, Address $address)
     {
-        return $this->addressServices->update($request, $address);
+        return $this->addressServices
+                    ->update($request, $address);
     }
 
     public function destroy(Address $address)
     {
-        return $this->addressServices->destroy($address);
+        return $this->addressServices
+                    ->destroy($address);
     }
 }

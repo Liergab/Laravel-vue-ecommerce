@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\ProductResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CartItemResource extends JsonResource
@@ -16,7 +17,8 @@ class CartItemResource extends JsonResource
     {
         return[
             'quantity'   =>$this->quantity,
-            'product_id' => $this->product_id
+            'product_id' => $this->product_id,
+            'product'    => new ProductResource($this->whenLoaded('product')),
         ];
     }
 }

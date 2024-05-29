@@ -15,7 +15,8 @@ class TaskImplementation implements TaskServices
    public function getTask()
    {
         $user = auth()->user();
-        $task = Task::where('user_id', $user->id)->paginate(5);
+        $task = Task::where('user_id', $user->id)
+                    ->paginate(5);
 
         return response()->json([
             TaskResource::collection($task)
@@ -32,7 +33,9 @@ class TaskImplementation implements TaskServices
    public function store($request)
    {
         $validate = $request->validated();
-        $task = auth()->user()->tasks()->create($validate);
+        $task = auth()->user()
+                      ->tasks()
+                      ->create($validate);
         
         return response()->json([
             'success' => true,

@@ -3,7 +3,7 @@ namespace  App\Http\Services\Implementations;
 
 use App\Http\Resources\CartItemResource;
 use App\Http\Services\CartItemServices;
-use App\Models\CartItems;
+use App\Models\CartItem;
 
 class CartItemImplementation implements CartItemServices
 {
@@ -11,7 +11,9 @@ class CartItemImplementation implements CartItemServices
     {
         $user = auth()->user();
 
-        $cartItem = CartItems::where('user_id', $user->id)->paginate(5);
+        $cartItem = CartItem::where('user_id', $user->id)
+                            ->with('product')
+                            ->paginate(5);
 
         return response()->json(CartItemResource::collection($cartItem),200);
     }
@@ -25,6 +27,7 @@ class CartItemImplementation implements CartItemServices
                 'message' => 'You dont have permission to get the other cart of user!'
             ],403);
         }
+        $cartItem->load('product');
         return response()->json(CartItemResource::make($cartItem), 200);
     }
 
@@ -62,6 +65,24 @@ class CartItemImplementation implements CartItemServices
         return response()->json([
             'data' => CartItemResource::make($cartItem)
         ]);
+    }
+
+
+    public function destroy($cartItem)
+    {
+        $user = auth()->user();
+
+        if($user->id !== $cartItem->user_id){
+            return response()->json([
+                'message' => 'You cant update this quantity!'
+            ]);
+        }
+
+        $cartItem->delete();
+
+        return response()->json([
+            'message' => 'Cart Deleted!'
+        ],200);
     }
     
 }

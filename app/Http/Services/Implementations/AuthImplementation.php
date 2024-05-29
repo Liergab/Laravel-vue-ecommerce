@@ -64,7 +64,8 @@ class AuthImplementation implements AuthServices
     public function updateProfile($request)
     {
         $user = auth()->user();
-        $addresses = $user->addresses()->get();
+        $addresses = $user->addresses()
+                         ->get();
 
         if ($addresses->isEmpty()) {
             return response()->json([
@@ -103,7 +104,9 @@ class AuthImplementation implements AuthServices
 
     public function logout()
     {
-        request()->user()->tokens()->delete();
+        request()->user()
+                 ->tokens()
+                 ->delete();
 
         return response()->json([
             'message' => 'UserLogout!'

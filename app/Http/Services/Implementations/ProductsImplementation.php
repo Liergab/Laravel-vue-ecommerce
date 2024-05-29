@@ -10,17 +10,24 @@ class ProductsImplementation implements ProductServices
    public function index()
    {
         $user = auth()->user();
-        $product = Product::where('user_id', $user->id)->paginate(5);
-        return response()->json(ProductResource::collection($product),200);
+        $product = Product::where('user_id', $user->id)
+                          ->paginate(5);
+
+        return response()->json(
+            ProductResource::collection($product),200
+        );
    }
 
    public function store($request)
    {
         $user = auth()->user();
+
         if( $user->role !== 'ADMIN'){
+
             return response()->json([
                 'message' => 'You don\'t have permission to make a product, Your not an Admin! '
             ],409);
+
         }
         $validated = $request->validated();
 
@@ -34,6 +41,7 @@ class ProductsImplementation implements ProductServices
             'price' => $validated['price'],
             'tags' => $tagsToSring
         ]);
+        
         return ProductResource::make($product);
    }
 

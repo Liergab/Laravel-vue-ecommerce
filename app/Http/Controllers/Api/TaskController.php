@@ -20,26 +20,31 @@ class TaskController extends Controller
     
     public function index()
     {
-       return $this->taskServices->getTask();  
+       return $this->taskServices
+                    ->getTask();  
     }
 
     public function store(StoreTaskRequest $request)
     {
-        return $this->taskServices->store($request);
+        return $this->taskServices
+                    ->store($request);
     }
 
     public function show(Task $task)
     {
-        return $this->taskServices->showTask($task);
+        return $this->taskServices
+                    ->showTask($task);
     }
 
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        return $this->taskServices->update($request, $task);
+        return $this->taskServices
+                    ->update($request, $task);
     }
 
     public function destroy(Task $task)
     {
-        return $this->taskServices->destroy($task);
+        return $this->taskServices
+                    ->destroy($task);
     }
 }
