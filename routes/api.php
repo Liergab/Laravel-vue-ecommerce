@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\CartItemController;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\CompleteTaskController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\VerificationController;
+
 
 Route::post("/register", [ApiController::class, "register"]);
 Route::post('login',  [ApiController::class, "login"]);
@@ -26,3 +28,5 @@ Route::group([
 });
 
 Route::patch('/tasks/{task}/complete' ,CompleteTaskController::class);
+
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');

@@ -14,12 +14,16 @@ class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $user;
+    public $verificationUrl;
+
     /**
      * Create a new message instance.
      */
-    public function __construct(public User $user)
+    public function __construct(User $user, $verificationUrl)
     {
         $this->user = $user;
+        $this->verificationUrl = $verificationUrl;
     }
 
     public function build()
@@ -27,7 +31,8 @@ class WelcomeMail extends Mailable
         return $this->view('emails.welcome')
                     ->with([
                         'name' => $this->user->name,
-                        'email'=> $this->user->email
+                        'email'=> $this->user->email,
+                        'verificationUrl' => $this->verificationUrl
                     ]);
     }
 

@@ -6,6 +6,7 @@ use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class AuthImplementation implements AuthServices
 {
@@ -21,7 +22,12 @@ class AuthImplementation implements AuthServices
         ]);
 
         $user = User::create($validated);
-        Mail::to($user->email)->send(new WelcomeMail($user));
+        $verificationUrl = URL::temporarySignedRoute(
+            'verification.verify', 
+            now()->addMinutes(60), 
+            ['id' => $user->id, 'hash' => sha1($user->email)]
+        );
+        Mail::to($user->email)->send(new WelcomeMail($user, $verificationUrl));
         return response()->json([
                 "data"         => $user,
                 "status"       => true,
@@ -38,11 +44,27 @@ class AuthImplementation implements AuthServices
         ]);
     
         if(!Auth::attempt($validated)){
+            
             return response()->json([
                 'message' => 'user credential invalid'
             ],401);
         }
+
+      
         $userData = auth()->user();
+        $user = auth()->user();
+        if (!$userData->hasVerifiedEmail()) {
+            Auth::logout();
+            $verificationUrl = URL::temporarySignedRoute(
+                'verification.verify', 
+                now()->addMinutes(60), 
+                ['id' => $user->id, 'hash' => sha1($user->email)]
+            );
+            Mail::to($user->email)->send(new WelcomeMail($user, $verificationUrl));
+            return response()->json([
+                'message' => 'Email is not verified!. Email verification Sebd to your email!'
+            ], 403);
+        }
         $user = User::where('email', $validated['email'])->first();
         
         return response()->json([
