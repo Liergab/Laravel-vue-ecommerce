@@ -8,8 +8,10 @@ use App\Http\Services\CartItemServices;
 use App\Http\Services\Implementations\AddressImplementation;
 use App\Http\Services\Implementations\AuthImplementation;
 use App\Http\Services\Implementations\CartItemImplementation;
+use App\Http\Services\Implementations\OrderImplementation;
 use App\Http\Services\Implementations\ProductsImplementation;
 use App\Http\Services\Implementations\TaskImplementation;
+use App\Http\Services\OrderServices;
 use App\Http\Services\ProductServices;
 use App\Http\Services\TaskServices;
 use Illuminate\Support\ServiceProvider;
@@ -21,7 +23,8 @@ class AppServiceProvider extends ServiceProvider
         AddressServices::class => AddressImplementation::class,
         AuthServices::class => AuthImplementation::class,
         ProductServices::class => ProductsImplementation::class,
-        CartItemServices::class => CartItemImplementation::class
+        CartItemServices::class => CartItemImplementation::class,
+        OrderServices::class => OrderImplementation::class
     ];
     
     /**

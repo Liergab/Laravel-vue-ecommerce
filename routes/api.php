@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\CartItemController;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\CompleteTaskController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\VerificationController;
 
@@ -24,6 +25,7 @@ Route::group([
     Route::apiResource('/address', AddressController::class);
     Route::apiResource('/product', ProductController::class);
     Route::apiResource('/cart-item', CartItemController::class);
+    Route::apiResource('/order', OrderController::class);
     // Route::get("refresh-token", [ApiController::class, "refreshToken"]);
 });
 
