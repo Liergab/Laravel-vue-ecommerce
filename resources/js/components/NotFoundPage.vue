@@ -1,5 +1,13 @@
 <template>
-    <div>
-        <h1>Not found page</h1>
-    </div>
+   <PublicLayout>
+    404 || Not Found!
+   </PublicLayout>
 </template>
+
+<script setup>
+import PublicLayout from '../pages/PublicPage/PublicLayout.vue'
+</script>
+
+<style lang="scss" scoped>
+
+</style>

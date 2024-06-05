@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+
+     /* style for login and register input */
+    .input-form{
+        @apply pl-4 py-1 bg-slate-800 text-slate-200 focus:outline-none; 
+    }
+    .input-form-container{
+        @apply flex items-center  bg-slate-800 rounded-lg px-2;
+    }
+
+    .register-button{
+        @apply py-1 px-4 bg-violet-300 w-full hover:bg-violet-400 text-slate-800;
+    }
+}
