@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import PublicNavbar from '../../components/shared/PublicNavbar.vue'
+import PublicNavbar from '../shared/PublicNavbar.vue'
 </script>
 
 <style lang="scss" scoped>

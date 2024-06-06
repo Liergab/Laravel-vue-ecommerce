@@ -5,6 +5,8 @@ import About from '../pages/PublicPage/AboutPage.vue';
 import NotFound from '../components/NotFoundPage.vue';
 import LoginPage from '../pages/PublicPage/LoginPage.vue'
 import RegisterPage from '../pages/PublicPage/Register.vue'
+import VerificationPage from '../pages/PublicPage/VerificationPage.vue'
+
 // Mock functions to simulate authentication and role retrieval
 const isAuthenticated = () => !!localStorage.getItem('user');
 const getUserRole = () => localStorage.getItem('userRole');
@@ -29,6 +31,11 @@ const routes = [
         path: '/register',
         component: RegisterPage,
         name : 'register'
+    },
+    {
+        path: '/verification',
+        component: VerificationPage,
+        name : 'verification'
     },
     // Uncomment these routes and import the components when they're available
     // {

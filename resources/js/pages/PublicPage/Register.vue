@@ -5,110 +5,34 @@
         </div>
         <div class="flex-1 flex items-center justify-center w-full ">
             <PublicForm>
-                <div class="text-center">
-                    <h1 class="text-2xl font-bold">Welcome to ECOM🛍️!</h1>
-                    <h2 class="text-sm font-semibold text-center max-w-80">
-                        Please enter your credentials to continue your shopping!
-                    </h2>
-                    
-                </div>
-                <form @submit.prevent="onSubmit" class="flex flex-col items-center justify-center gap-2">
-                    <span class="input-form-container w-full">
-                        <i class="pi pi-user" style="color:gray" />
-                        <input 
-                            type="email" 
-                            :name="emailAttrs"
-                            v-model="email" 
-                            placeholder="Email" 
-                            class="input-form"   
-                        /> 
-                    </span>
-                    <span>{{ errors.email }}</span>
-                    <span class="input-form-container">
-                        <i class="pi pi-user" style="color:gray" />
-                        <input 
-                            :type="isPassShow ? 'password' : 'text'" 
-                            :name="passwordAttrs"
-                            v-model="password"
-                            placeholder="Password" 
-                            class="input-form"
-                        /> 
-                        <i :class=" isPassShow ? 'pi pi-eye-slash' :'pi pi-eye'" 
-                            style="color:gray"
-                            @click="isPassShow = !isPassShow" 
-                        />
-                    </span>
-                    <span>{{ errors.password }}</span>
-                    <Button label="Submit" type="submit"  class="register-button "  :disabled="isSubmitDisabled"/>
-
-                    <h1 class="text-sm ">Have account already? 
-                        <router-link to="/login">
-                            <span class="text-violet-600">Login</span>
-                        </router-link>
-                    </h1>
-                </form>
+                <ToggleRegister :activeToggle="activeToggle" @updatetoggle="handleClick"/>
+                <Customer v-if="customer"/>
+                <Admin v-if="admin"/>
             </PublicForm>  
         </div>  
     </PublicLayout>
 </template>
 
 <script setup>
+import Customer from '../../components/register/Customer.vue'
 import PublicForm    from '../../components/layout/PublicForm.vue';
-import {createToast} from '../../components/shared/useToast'
-import loginImage    from '../../assets/image/login.svg'
-import apiService    from '../../services/apiServices';
-import PublicLayout  from './PublicLayout.vue'
-import Button        from 'primevue/button';
-import { useForm }   from 'vee-validate';
-import { computed, 
-         ref }       from 'vue';
-import * as yup      from 'yup';
+import PublicLayout  from '../../components/layout/PublicLayout.vue'
+import ToggleRegister from '../../components/shared/ToggleRegister.vue';
+import loginImage from '../../assets/image/login.svg'
+import {ref} from 'vue'
+import Admin from '../../components/register/Admin.vue';
 
+const customer = ref(true)
+const admin = ref(false)
+const activeToggle = ref('customer')
 
-const showToast = createToast();
-const isPassShow = ref(true)
-const data = ref([])
+const handleClick = (toggle) => {
+    customer.value = false
+    admin.value = false
+    activeToggle.value = toggle
 
-
-const schema = yup.object({
-  email: yup.string().email().required(),
-  password: yup.string().min(6).required(),
-});
-
-const { defineField, errors, handleSubmit, resetForm  } = useForm({
-  validationSchema: schema,
-});
-
-const [email, emailAttrs] = defineField('email');
-const [password, passwordAttrs] = defineField('password');
-
-const onSubmit = handleSubmit( async values => {
- try {
-    const res = await apiService.post('/api/login', {
-      email: values.email,
-      password: values.password
-    });
-    showToast('success', 'Success Message', 'Successfully Login');
-
-    
-    data.value = res.data
-    console.log(res.data.data)
- } catch (error) {
-    console.log(error.response.data.message)
-    showToast('error', 'Errror Message',error.response.data.message )
+    if(toggle === 'customer' ) customer.value = true
+    if(toggle == 'admin')  admin.value = true 
 }
-
-  resetForm()
-});
-
-const isSubmitDisabled = computed(() => {
-    return !email.value || !password.value;
-});
-
-
-
 </script>
 
-<style lang="scss" scoped>
-
-</style>

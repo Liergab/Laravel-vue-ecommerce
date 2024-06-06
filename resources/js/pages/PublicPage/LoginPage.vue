@@ -55,10 +55,10 @@
 
 <script setup>
 import PublicForm    from '../../components/layout/PublicForm.vue';
+import PublicLayout  from '../../components/layout/PublicLayout.vue'
 import {createToast} from '../../components/shared/useToast'
 import loginImage    from '../../assets/image/login.svg'
 import apiService    from '../../services/apiServices';
-import PublicLayout  from './PublicLayout.vue'
 import Button        from 'primevue/button';
 import { useForm }   from 'vee-validate';
 import { computed, 

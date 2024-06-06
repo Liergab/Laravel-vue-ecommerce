@@ -7,5 +7,5 @@
     </div>
 </template>
 <script setup>
-import PublicLayout from './PublicLayout.vue'
+import PublicLayout from '../../components/layout/PublicLayout.vue'
 </script>

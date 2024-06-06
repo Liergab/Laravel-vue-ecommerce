@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import PublicLayout from '../pages/PublicPage/PublicLayout.vue'
+import PublicLayout from './layout/PublicLayout.vue'
 </script>
 
 <style lang="scss" scoped>
