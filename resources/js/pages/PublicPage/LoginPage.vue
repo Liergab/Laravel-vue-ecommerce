@@ -2,6 +2,7 @@
     <PublicLayout>
         <div class="flex-1 items-center justify-center w-full hidden md:flex bg-gradient-to-br from-slate-200 via-slate-100 to-slate-50 p-14 rounded-xl">
             <img :src="loginImage" alt="loginImage" class="w-9/12" >
+            <h1 v-if="isLoggedin ">user{{user.data.role}}</h1>
         </div>
         <div class="flex-1 flex items-center justify-center w-full ">
             <PublicForm>
@@ -39,7 +40,7 @@
                         />
                     </span>
                     <span>{{ errors.password }}</span>
-                    <Button label="Submit" type="submit"  class="register-button "  :disabled="isSubmitDisabled"/>
+                    <Button :label="submitButtonLabel" type="submit"  class="register-button "  :disabled="isSubmitDisabled"/>
 
                     <h1 class="text-sm ">Don't have an account? 
                         <router-link to="/register">
@@ -61,52 +62,59 @@ import loginImage    from '../../assets/image/login.svg'
 import apiService    from '../../services/apiServices';
 import Button        from 'primevue/button';
 import { useForm }   from 'vee-validate';
+import { useRouter } from 'vue-router';
+import { useUserStore } from '../../store/userStore';
+import { loginSchema } from '../../util/schema';
 import { computed, 
          ref }       from 'vue';
-import * as yup      from 'yup';
+
 
 
 const showToast = createToast();
 const isPassShow = ref(true)
-const data = ref([])
+const userStore = useUserStore();
+const router = useRouter();
 
-
-const schema = yup.object({
-  email: yup.string().email().required(),
-  password: yup.string().min(6).required(),
-});
-
-const { defineField, errors, handleSubmit, resetForm  } = useForm({
-  validationSchema: schema,
+const { defineField, errors, handleSubmit, resetForm, isSubmitting  } = useForm({
+  validationSchema: loginSchema,
 });
 
 const [email, emailAttrs] = defineField('email');
 const [password, passwordAttrs] = defineField('password');
 
 const onSubmit = handleSubmit( async values => {
- try {
-    const res = await apiService.post('/api/login', {
-      email: values.email,
-      password: values.password
-    });
-    showToast('success', 'Success Message', 'Successfully Login');
-
-    
-    data.value = res.data
-    console.log(res.data.data)
- } catch (error) {
-    console.log(error.response.data.message)
-    showToast('error', 'Errror Message',error.response.data.message )
-}
-
-  resetForm()
+    try {
+        const res = await apiService.post('/api/login', {
+        email: values.email,
+        password: values.password
+        });
+        showToast('success', 'Success Message', 'Successfully Login');
+        const userData = res?.data
+        userStore.login(userData)
+        
+        if (userData.data?.role === 'USER') {
+            router.push('/user/dashboard')
+        } else if (userData.data.role === 'ADMIN') {
+                router.push('/admin/dashboard');
+        }
+        resetForm()
+    } catch (error) {
+        console.log(error.response.data.message)
+        showToast('error', 'Errror Message',error.response.data.message )
+        resetForm()
+    }
 });
 
 const isSubmitDisabled = computed(() => {
     return !email.value || !password.value;
 });
 
+const user = computed(() => userStore.user);
+const isLoggedin = computed(() => userStore.isLoggedIn);
 
- 
+const submitButtonLabel = computed(() => {
+      return isSubmitting.value ? 'Logging in...' : 'Login';
+});
+
 </script>
 

@@ -130,7 +130,7 @@ const isSubmitDisabled = computed(() => {
 
 const submitButtonLabel = computed(() => {
       return isSubmitting.value ? 'Submitting...' : 'Submit';
-    });
+});
 
 
 

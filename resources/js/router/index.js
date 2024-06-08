@@ -6,10 +6,12 @@ import NotFound from '../components/NotFoundPage.vue';
 import LoginPage from '../pages/PublicPage/LoginPage.vue'
 import RegisterPage from '../pages/PublicPage/Register.vue'
 import VerificationPage from '../pages/PublicPage/VerificationPage.vue'
+import AdminDashboard from '../pages/AdminPage/AdminDashboard.vue'
+import UserDashboard from '../pages/UserPage/UserDashboard.vue'
+import { useUserStore } from '../store/userStore';
+import Sample from '../pages/AdminPage/Sample.vue'
 
-// Mock functions to simulate authentication and role retrieval
-const isAuthenticated = () => !!localStorage.getItem('user');
-const getUserRole = () => localStorage.getItem('userRole');
+
 
 const routes = [
     {
@@ -37,17 +39,25 @@ const routes = [
         component: VerificationPage,
         name : 'verification'
     },
-    // Uncomment these routes and import the components when they're available
-    // {
-    //     path: '/user/dashboard',
-    //     component: UserDashboard,
-    //     meta: { requiresAuth: true, role: 'USER' }
-    // },
-    // {
-    //     path: '/admin/dashboard',
-    //     component: AdminDashboard,
-    //     meta: { requiresAuth: true, role: 'ADMIN' }
-    // },
+    {
+        path: '/user/dashboard',
+        component: UserDashboard,
+        name:'userDashboard',
+        meta: { requiresAuth: true, role: 'USER' }
+    },
+    {
+        path: '/admin/dashboard',
+        component: AdminDashboard,
+        name:'adminDashboard',
+        meta: { requiresAuth: true, role: 'ADMIN' },
+        children: [
+            {
+                path: "sample",
+                component: Sample,
+                name: "sample",
+            },
+        ]
+    },
     {
         path: '/:path(.*)*',
         component: NotFound
@@ -60,16 +70,35 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-    const userRole = getUserRole();
+    const userStore = useUserStore();
+    const isLoggedIn = userStore.isLoggedIn;
+    const userRole = userStore.user?.data?.role;
 
-    if (requiresAuth && !isAuthenticated()) {
-        next('/');
-    } else if (requiresAuth && userRole !== to.meta.role) {
-        next('/'); // Redirect to home if the role does not match
+    if (isLoggedIn) {
+        if (to.name === 'login' || to.name === 'home') {
+            if (userRole === 'USER') {
+                next({ name: 'userDashboard' }); 
+            } else if (userRole === 'ADMIN') {
+                next({ name: 'adminDashboard' }); 
+            } else {
+                next('/not-found');
+            }
+        } else {
+            if (to.meta.requiresAuth && userRole !== to.meta.role) {
+                next('/not-found'); 
+            } else {
+                next();
+            }
+        }
     } else {
-        next(); // Proceed to the route
+        if (to.meta.requiresAuth) {
+            next('/login'); 
+        } else {
+            next();
+        }
     }
 });
-
 export default router;
+
+
+
