@@ -44,4 +44,14 @@ class ProductController extends Controller
         return $this->productServices
                     ->destroy($product);
     }
+
+    public function getAllProduct()
+    {
+        return $this->productServices->getall();
+    }
+
+    public function getProductById($id)
+    {
+        return $this->productServices->getProductById($id);
+    }
 }

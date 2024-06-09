@@ -17,6 +17,19 @@ class ProductsImplementation implements ProductServices
             ProductResource::collection($product),200
         );
    }
+   public function getall()
+   {
+    $product = Product::all();
+
+    return response()->json($product, 200);
+   }
+
+   public function getProductById($id)
+   {
+    $product = Product::find($id);
+
+    return response()->json($product, 200);
+   }
 
    public function store($request)
    {

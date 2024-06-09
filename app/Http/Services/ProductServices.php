@@ -11,4 +11,6 @@ interface ProductServices
     public function store($request);
     public function update($request, $product);
     public function destroy($product);
+    public function getall();
+    public function getProductById($id);
 }

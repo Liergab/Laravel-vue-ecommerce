@@ -17,6 +17,7 @@ class AuthImplementation implements AuthServices
             "name"     => "required|string",
             "email"    => "required|string|email|unique:users",
             "password" => "required|confirmed",
+            "role"     => "required|in:USER,ADMIN",
             "default_billing_address_id"  => "nullable",
             "default_shipping_address_id" => "nullable"
         ]);
@@ -31,6 +32,7 @@ class AuthImplementation implements AuthServices
         return response()->json([
                 "data"         => $user,
                 "status"       => true,
+                "message"      => "You are now register! We send email verification to your email!",
                 "token_type"   => "Bearer",
                 "access_token" => $user->createToken('api_token')->plainTextToken
             ], 201); 
@@ -62,7 +64,7 @@ class AuthImplementation implements AuthServices
             );
             Mail::to($user->email)->send(new WelcomeMail($user, $verificationUrl));
             return response()->json([
-                'message' => 'Email is not verified!. Email verification Sebd to your email!'
+                'message' => 'Email is not verified!.  We send email verification to your email'
             ], 403);
         }
         $user = User::where('email', $validated['email'])->first();

@@ -17,13 +17,10 @@ class VerificationController extends Controller
             $user->markEmailAsVerified();
 
             // Redirect the user to a success page or return a success response
-            return response()->json([
-                'message' => 'verified'
-            ]);
+          
+            return redirect()->to('http://127.0.0.1:8000/verification?message=verified');
         } else {
-            return response()->json([
-                'message' => 'not verified'
-            ]);
+            return redirect()->to('http://127.0.0.1:8000/verification?message=not-verified');
         }
     }
 }
