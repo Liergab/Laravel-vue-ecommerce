@@ -30,5 +30,6 @@ Route::group([
 });
 
 Route::patch('/tasks/{task}/complete' ,CompleteTaskController::class);
-
+Route::get('/get-all-product', [ProductController::class, 'getAllProduct']);
+Route::get('/get-product/{id}', [ProductController::class, 'getProductById']);
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
