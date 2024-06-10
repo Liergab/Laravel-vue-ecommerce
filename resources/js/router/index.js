@@ -10,8 +10,8 @@ import AdminDashboard from '../pages/AdminPage/AdminDashboard.vue'
 import UserDashboard from '../pages/UserPage/UserDashboard.vue'
 import { useUserStore } from '../store/userStore';
 import Sample from '../pages/AdminPage/Sample.vue'
-
-
+import Contact from '../pages/PublicPage/Contact.vue'
+import ServicesPage from '../pages/PublicPage/ServicesPage.vue';
 
 const routes = [
     {
@@ -23,6 +23,16 @@ const routes = [
         path: '/about',
         component: About,
         name : 'about'
+    },
+    {
+        path: '/services',
+        component: ServicesPage,
+        name : 'Services'
+    },
+    {
+        path: '/contact',
+        component: Contact,
+        name : 'contact'
     },
     {
         path: '/login',

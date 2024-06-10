@@ -6,7 +6,7 @@
                 <h1 class="text-5xl font-bold">Why choose us</h1>
             </div>
             <div class="flex w-full  p-4 gap-2 text-center">
-                <Card v-for="(d, index) in cardData" :key="index" class=" max-w-80 mt-8 border-[1px] border-indigo-300 " >
+                <Card v-for="(d, index) in cardData" :key="index" class=" max-w-80 mt-8 border-[1px] border-indigo-300 shadow-2xl " >
                     <template #header>
                         <span :class="['text-7xl','mt-8','text-indigo-500', d.icon]"></span>
                     </template>

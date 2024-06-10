@@ -39,7 +39,7 @@
             <div class="flex-1 flex items-center justify-center gap-3">
                 <Carousel :value="TeamProfile" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
                     <template #item="slotProps">
-                        <div class=" m-2 p-3 border-[1px]  border-indigo-600 rounded-xl ">
+                        <div class=" m-2 p-3 border-[1px]  border-indigo-400 rounded-xl  bg-slate-100 shadow-xl">
                             <div class="mb-3">
                                 <div class="relative mx-auto">
                                     <Image src="https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Image" preview class="w-full"/>
