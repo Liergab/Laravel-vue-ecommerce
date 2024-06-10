@@ -10,7 +10,7 @@
                     <Button icon="pi pi-linkedin"  aria-label="Submit"  class="bg-indigo-500  rounded-full p-2" />
                     <Button icon="pi pi-youtube"   aria-label="Submit"   class="bg-indigo-500  rounded-full p-2"/>
                 </div>
-                <div class="flex gap-40 text-sm font-semibold text-slate-300">
+                <div class="flex gap-36 text-sm font-semibold text-slate-300">
                     <div>
                         <h1>Autumn</h1>
                         <h1>Winter</h1>
