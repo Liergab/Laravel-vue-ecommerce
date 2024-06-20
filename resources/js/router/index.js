@@ -1,17 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import Home from '../pages/PublicPage/Homepage.vue';
-import About from '../pages/PublicPage/AboutPage.vue';
-import NotFound from '../components/NotFoundPage.vue';
+import Home from '../pages/PublicPage/Homepage.vue'
+import About from '../pages/PublicPage/AboutPage.vue'
+import NotFound from '../components/NotFoundPage.vue'
 import LoginPage from '../pages/PublicPage/LoginPage.vue'
 import RegisterPage from '../pages/PublicPage/Register.vue'
 import VerificationPage from '../pages/PublicPage/VerificationPage.vue'
 import AdminDashboard from '../pages/AdminPage/AdminDashboard.vue'
 import UserDashboard from '../pages/UserPage/UserDashboard.vue'
-import { useUserStore } from '../store/userStore';
+import { useUserStore } from '../store/userStore'
 import Sample from '../pages/AdminPage/Sample.vue'
 import Contact from '../pages/PublicPage/Contact.vue'
-import ServicesPage from '../pages/PublicPage/ServicesPage.vue';
+import ServicesPage from '../pages/PublicPage/ServicesPage.vue'
+import AddProduct from '../pages/AdminPage/AddProduct.vue'
+import OrderProductList from '../pages/AdminPage/OrderProductList.vue'
+import OrderDetails from '../pages/AdminPage/OrderDetails.vue'
 
 const routes = [
     {
@@ -66,6 +69,21 @@ const routes = [
                 component: Sample,
                 name: "sample",
             },
+            {
+                path:'add-product',
+                component:AddProduct,
+                name:'add-product'
+            },
+            {
+                path:'order-details',
+                component:OrderDetails,
+                name:'order-details'
+            },
+            {
+                path:'order-product',
+                component:OrderProductList,
+                name:'order-product'
+            }
         ]
     },
     {
